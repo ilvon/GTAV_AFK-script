@@ -1,21 +1,13 @@
-﻿MyGui := Gui(, "GTAV AFK")
+MyGui := Gui(, "GTAV AFK")
 Pause::Pause -1
-/*
-MyGui.Add("Text",,"Key 1: ")
-MyGui.Add("Text",,"Key 2: ")
-MyGui.Add("Hotkey", "vChosenHotkey ym", "w")
-MyGui.Add("Hotkey", "vChosenHotkey2", "s")
-*/
 pause_cnt := -1
-ch_pause := &pause_cnt
+ref_pause_cnt := &pause_cnt
 
 MyGui.SetFont(, "Microsoft JhengHei UI")
-MyGui.Add("Text", "x+40 y+20" ,"The script is running...")
+MyGui.Add("Text", "y+20" ,"Your game must be the active window.")
 MyGui.Add("Button", "Default w80 x20 yp+40", "Pause").OnEvent("Click",gui_pause)
 MyGui.Add("Button", "Default w80 xp+120 yp-0", "Exit").OnEvent("Click",gui_exit)
 sb := MyGui.Add("StatusBar",,"Script running.")
-;sb.SetText("Script running.")
-;MyGui.Add("Button", "Default", "Modify").OnEvent("Click", key_change)
 MyGui.Show("w240 h130")
 
 chk_pause(pac){
@@ -26,21 +18,14 @@ chk_pause(pac){
         sb.SetText("Script paused.")
     }
 }
-tog(*){
-    %ch_pause% *= -1
-
-}
 gui_pause(*){
     Pause -1
-    tog()
+    %ref_pause_cnt% *= -1
     chk_pause(pause_cnt)
 }
 gui_exit(*){
     ExitApp
 }
-
-;keychange(*){
-;}
 
 loop
 {
