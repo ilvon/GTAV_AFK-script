@@ -87,7 +87,7 @@ keychange(*){
     %ref_k2_d% := "{" hk2.Value " down}" 
     %ref_k2_u% := "{" hk2.Value " up}"
     %ref_sleep_inv% := interval.Value
-    MyGui.Show("w240 h280")
+    MyGui.Show("w250 h280")
     return
 }
 timer_main(*){
@@ -117,4 +117,4 @@ loop
 }
  
 #Esc::ExitApp
-#`::MyGui.Show("w240 h280")
+#`::MyGui.Show("w250 h280")
