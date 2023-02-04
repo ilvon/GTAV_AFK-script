@@ -4,13 +4,12 @@ A simple script written by AutoHotKey_v2.0 (AHK) for AFK in GTA V Online or any 
 
 This script will repeatedly send keystrokes with at a certain interval.
 <p align="center">
-  <img width="242" height="292" src="https://user-images.githubusercontent.com/76443690/215519910-0ca5c622-2de2-48b5-84e4-227a0e989a65.png">
+  <img width="252" height="312" src="https://user-images.githubusercontent.com/76443690/216780962-bce61ca8-7c03-4fa3-91fe-bfd737bd5cff.png">
 </p>
 
 ## How To Use
 1. Run the executable / Download [AHK_v2](https://www.autohotkey.com/)
 2. Select the game that you want to AFK and place it as the top window
-3. You are good to go
 
 ## Remarks
 - The close button of the executable of this script *DOES NOT* kill the script but just close the GUI
