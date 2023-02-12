@@ -4,7 +4,8 @@ A simple script written by AutoHotKey_v2.0 (AHK) for AFK in GTA V Online or any 
 
 This script will repeatedly send keystrokes with at a certain interval.
 <p align="center">
-  <img width="252" height="312" src="https://user-images.githubusercontent.com/76443690/216780962-bce61ca8-7c03-4fa3-91fe-bfd737bd5cff.png">
+  <img width="252" height="312" src="https://user-images.githubusercontent.com/76443690/218305456-fe8383a3-b29a-402c-81dd-ae4677bdbc9c.png">
+
 </p>
 
 ## How To Use
