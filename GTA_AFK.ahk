@@ -52,7 +52,7 @@ sb := afkgui.Add("StatusBar",,"")
 
 show_hrs := afkgui.Add("Text", "x118 y20", "0" hrs " : ")
 show_mins := afkgui.Add("Text", "x148 y20", "0" mins " : ")
-show_secs := afkgui.Add("Text", "x178 y20", "0" secs)
+show_secs := afkgui.Add("Text", "x178 y20", "0" secs "  ")
 
 show_hrs.SetFont("cRed bold")
 show_mins.SetFont("cRed bold")
