@@ -181,7 +181,7 @@ get_list(*){
     }
     i := 1
     while i <= list.length{
-        if (list[i] = "explorer.exe" OR list[i] = "hh.exe" OR list[i] = "svchost.exe" OR list[i] = "GTA_AFK_v3 re.exe"){
+        if (list[i] = "explorer.exe" OR list[i] = "hh.exe" OR list[i] = "svchost.exe" OR list[i] = "GTA_AFK_v1.3.0.exe"){
             list.RemoveAt(i)
             i -= 1
         }
