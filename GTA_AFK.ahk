@@ -6,7 +6,7 @@ k1_d := "{w down}"
 k1_u := "{w up}"
 k2_d := "{s down}"
 k2_u := "{s up}"
-sleep_inv := 30
+sleep_inv := 120
 hrs := '0'
 mins := '0'
 secs := '0'
@@ -26,7 +26,6 @@ app_name_list := get_list()
 chk_modify := (*) => btn_mod.Enabled := hk1.Value hk2.Value interval.Value radio_inactive.Value app_choose.Value? True : False
 
 afkgui := Gui(, "GTAV AFK")
-;afkgui.BackColor := "23272E"
 afkgui.SetFont(, "Microsoft JhengHei UI")
 
 ;afkgui.Add("Text", "x16 y20" ,"Your game must be the active window.")
@@ -37,7 +36,7 @@ hk1 := afkgui.Add("Hotkey", "x83 y46","w")
 hk2 := afkgui.Add("Hotkey","x83 y76", "s")
 afkgui.Add("Text","x28 y103","Interval `n (sec)")
 afkgui.Add("Edit","x83 y108 w136")
-interval := afkgui.Add("UpDown", "Range1-600", 30)
+interval := afkgui.Add("UpDown", "Range1-600", 120)
 afkgui.add("text", "x28 y138", " Target `nWindow")
 app_choose := afkgui.add("DropDownList", "x83 y142 Disabled choose1" , app_name_list)
 
@@ -52,7 +51,7 @@ sb := afkgui.Add("StatusBar",,"")
 
 show_hrs := afkgui.Add("Text", "x118 y20", "0" hrs " : ")
 show_mins := afkgui.Add("Text", "x148 y20", "0" mins " : ")
-show_secs := afkgui.Add("Text", "x178 y20", "0" secs "  ")
+show_secs := afkgui.Add("Text", "x178 y20", "0" secs " ")
 
 show_hrs.SetFont("cRed bold")
 show_mins.SetFont("cRed bold")
@@ -115,9 +114,8 @@ gui_exit(*){
 setting_modify(*){
     global app_name_list
     afkgui.Submit()
-
     if (app_choose.value = 0){
-        MsgBox "Please choose the target window.", "Error", 16
+        MsgBox "Please choose a target window.", "Error", 16
         app_name_list := get_list()
         update_ddl(0, app_name_list)
         afkgui.Show("w250 h330")
@@ -215,7 +213,7 @@ update_ddl(past_choice, app_name_list){
     }
 }
 
-chk_loop_appexist(exe_name){
+app_nonexist_loop(exe_name){
     global app_name_list
     gui_pause()
     MsgBox exe_name " does not exist!", "Error", 16
@@ -224,70 +222,78 @@ chk_loop_appexist(exe_name){
     Pause
 }
 
+loop_ina_gta(key_down, key_up, s_inv, h_inv){
+    global app_name_list
+    top_win_id := WinGetId("A")
+    target_exe := app_name_list[app_choose.value]
+    if (!app_choose.value){
+        gui_pause()
+        MsgBox "Please choose a target window.", "Error", 16
+        app_name_list := get_list()
+        update_ddl(0, app_name_list)
+        Pause
+    }else{
+        WinSetAlwaysOnTop 1, "ahk_id " top_win_id
+        if (WinExist("ahk_exe " target_exe)){
+            WinActivate "ahk_exe " target_exe
+        }else{
+            app_nonexist_loop(target_exe)
+        }
+        Send key_down
+        Sleep h_inv
+        Send key_up
+        if (WinExist("ahk_exe " target_exe)){
+            WinMinimize "ahk_exe " target_exe
+        }else{
+            app_nonexist_loop(target_exe)
+        }
+        WinSetAlwaysOnTop 0, "ahk_id " top_win_id
+        Sleep s_inv*1000
+    }
+}
+loop_ina(key_down, key_up, s_inv, h_inv){
+    global app_name_list
+    target_exe := app_name_list[app_choose.value]
+    if (!app_choose.value){
+        gui_pause()
+        MsgBox "Please choose a target window.", "Error", 16
+        app_name_list := get_list()
+        update_ddl(0, app_name_list)
+        Pause
+    }else{
+        if (WinExist("ahk_exe " target_exe)){
+            ControlSend key_down,, "ahk_exe" target_exe
+        }else{
+            app_nonexist_loop(target_exe)
+        }
+        Sleep h_inv
+        if (WinExist("ahk_exe " target_exe)){
+            ControlSend key_up,, "ahk_exe" target_exe
+        }else{
+            app_nonexist_loop(target_exe)
+        }
+        Sleep s_inv*1000
+    }
+
+}
+
 loop
 {
     if (rad_ina_status = 1){
-        if (app_name_list[app_choose.value] = "GTA5.exe"){
-            id_nowA := WinGetId("A")
-            WinSetAlwaysOnTop 1, "ahk_id " id_nowA
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                WinActivate "ahk_exe " app_name_list[app_choose.value]
+        if(app_choose.value){
+            if (app_name_list[app_choose.value] = "GTA5.exe"){
+                loop_ina_gta(k1_d, k1_u, sleep_inv, 650)
+                loop_ina_gta(k2_d, k2_u, sleep_inv, 650)
             }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
+                loop_ina(k1_d, k1_u, sleep_inv, 1000)
+                loop_ina(k2_d, k2_u, sleep_inv, 1000)
             }
-            Send k1_d
-            Sleep 650
-            Send k1_u
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                WinMinimize "ahk_exe " app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            WinSetAlwaysOnTop 0, "ahk_id " id_nowA
-            Sleep sleep_inv*1000
-            ;----------------------------------------------------------------------------------
-            id_nowA := WinGetId("A")
-            WinSetAlwaysOnTop 1, "ahk_id " id_nowA
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                WinActivate "ahk_exe " app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            Send k2_d
-            Sleep 650
-            Send k2_u
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                WinMinimize "ahk_exe " app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            WinSetAlwaysOnTop 0, "ahk_id " id_nowA
-            Sleep sleep_inv*1000
         }else{
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                ControlSend k1_d,, "ahk_exe" app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            Sleep 1000
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                ControlSend k1_u,, "ahk_exe" app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            Sleep sleep_inv*1000
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                ControlSend k2_d,, "ahk_exe" app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            Sleep 1000
-            if (WinExist("ahk_exe " app_name_list[app_choose.value])){
-                ControlSend k2_u,, "ahk_exe" app_name_list[app_choose.value]
-            }else{
-                chk_loop_appexist(app_name_list[app_choose.value])
-            }
-            Sleep sleep_inv*1000
+            gui_pause()
+            MsgBox "Please choose a target window.", "Error", 16
+            app_name_list := get_list()
+            update_ddl(0, app_name_list)
+            Pause
         }
     }else{
         Send k1_d
