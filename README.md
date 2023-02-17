@@ -17,16 +17,22 @@ This script will repeatedly send keystrokes with at a certain interval.
    - the target window **CAN be minimized**
    - if the GTAV is the target widnow, this mode **WILL** shortly interrupt for your current task on the active window (losing focus, GTA pops up and     minimized repeatedly when keystrokes sent) 
    - longer press interval recommended
-   
+
+## Key Bindigs
+|               Key              |       Task       |
+| :----------------------------: | :--------------: |
+|  <kbd>Win</kbd>+<kbd>`</kbd>   |     Show GUI     |
+| <kbd>Win</kbd>+<kbd>ESC</kbd>  | Kill the Script  |
+
+
 ## How To Use
 1. Run the executable / Download [AHK_v2](https://www.autohotkey.com/)
 2. Select the mode of the script and start AFK
 
 ## Remarks
 - The close button of the executable of this script *DOES NOT* kill the script but just close the GUI
-- Apart from the `Exit` button, you can use keyboard hotkey `Win+ESC` to kill the script
-- You can use hotkey `Win`+ `  to reopen the GUI
-- Key1 & Key2 cannot be set as special keys like `Ctrl`, `Shift` etc.
+- Key1 & Key2 cannot be set as special keys like <kbd>Ctrl</kbd>, <kbd>Shift</kbd> etc.
+- You can press the radio button to refresh the `Target Window` list
 - For GTAV, probably there is some mechanism has been deployed to avoid external automated keystrokes by scipt, the inactive mode is not using `ControlSend`      function, but using `Send` instead, which cause the forementioned interruption
 
 
