@@ -1,6 +1,5 @@
 Pause::Pause -1
 pause_cnt := -1
-ref_pause_cnt := &pause_cnt
 
 k1_d := "{w down}"
 k1_u := "{w up}"
@@ -12,15 +11,6 @@ mins := '0'
 secs := '0'
 rad_ina_status := 0
 
-ref_k1_d := &k1_d
-ref_k1_u := &k1_u
-ref_k2_d := &k2_d
-ref_k2_u := &k2_u
-ref_sleep_inv := &sleep_inv
-ref_hrs := &hrs
-ref_mins := &mins
-ref_secs := &secs
-ref_rad_ina_status := &rad_ina_status
 app_name_list := get_list()
 
 chk_modify := (*) => btn_mod.Enabled := hk1.Value hk2.Value interval.Value radio_inactive.Value app_choose.Value? True : False
@@ -84,6 +74,7 @@ change_radio(*){
     app_name_list := get_list()
     ;update_ddl(app_name_list[app_choose.value], app_name_list)
     update_ddl(app_name_list[1], app_name_list)
+    ;update_ddl(0, app_name_list)
 }
 
 chk_pause(pac){
@@ -98,11 +89,12 @@ chk_pause(pac){
     return
 }
 gui_pause(*){
+    global hrs, mins, secs, pause_cnt
     Pause -1
-    %ref_pause_cnt% *= -1
-    %ref_hrs% := 0
-    %ref_mins% := 0
-    %ref_secs% := -1
+    pause_cnt *= -1
+    hrs := 0
+    mins := 0
+    secs := -1
     chk_pause(pause_cnt)
     return
 }
@@ -112,7 +104,7 @@ gui_exit(*){
     ExitApp
 }
 setting_modify(*){
-    global app_name_list
+    global app_name_list, k1_d, k1_u, k2_d, k2_u, sleep_inv, rad_ina_status
     afkgui.Submit()
     if (app_choose.value = 0){
         MsgBox "Please choose a target window.", "Error", 16
@@ -130,38 +122,39 @@ setting_modify(*){
     }else{
         MsgBox "You have chosen " hk1.Value " & " hk2.Value '.' tell_interval "`n `nThe script now in " tell_radio_status "`n `nTarget window: " app_name_list[app_choose.value], 'Modify script', 64
     }
-    %ref_k1_d% := "{" hk1.Value " down}"
-    %ref_k1_u% := "{" hk1.Value " up}"
-    %ref_k2_d% := "{" hk2.Value " down}"
-    %ref_k2_u% := "{" hk2.Value " up}"
-    %ref_sleep_inv% := interval.Value
-    %ref_rad_ina_status% := radio_inactive.value
+    k1_d := "{" hk1.Value " down}"
+    k1_u := "{" hk1.Value " up}"
+    k2_d := "{" hk2.Value " down}"
+    k2_u := "{" hk2.Value " up}"
+    sleep_inv := interval.Value
+    rad_ina_status := radio_inactive.value
     app_name_list := get_list()
     update_ddl(chosen_app, app_name_list)
     afkgui.Show("w250 h330")
     return
 }
 timer_main(*){
-    %ref_secs% += 1
-    if(%ref_secs% > 59){
-        %ref_mins% += 1
-        %ref_secs% := 0
+    global hrs, mins, secs
+    secs += 1
+    if(secs > 59){
+        mins += 1
+        secs := 0
     }
-    if(%ref_mins% > 59){
-        %ref_hrs% += 1
-        %ref_mins% := 0
+    if(mins > 59){
+        hrs += 1
+        mins := 0
     }
-    if (%ref_hrs% < 10){
+    if (hrs < 10){
         show_hrs.text := "0" hrs " : "
     }else{
         show_hrs.text := hrs " : "
     }
-    if (%ref_mins% < 10){
+    if (mins < 10){
         show_mins.text := "0" mins " : "
     }else{
         show_mins.text := mins " : "
     }
-    if (%ref_secs% < 10){
+    if (secs < 10){
         show_secs.text := "0" secs " : "
     }else{
         show_secs.text := secs " : "
@@ -181,7 +174,7 @@ get_list(*){
     }
     i := 1
     while i <= list.length{
-        if (list[i] = "explorer.exe" OR list[i] = "hh.exe" OR list[i] = "svchost.exe" OR list[i] = "GTA_AFK_v1.3.0.exe"){
+        if (list[i] = "explorer.exe" OR list[i] = "hh.exe" OR list[i] = "svchost.exe" OR list[i] = "GTA_AFK_v1.3.1.exe"){
             list.RemoveAt(i)
             i -= 1
         }
@@ -310,5 +303,5 @@ loop
 #Esc::gui_exit()
 #`::afkgui.Show("w250 h330")
 
-;@Ahk2Exe-SetDescription GTA_AFK_v1.3.0
-;@Ahk2Exe-SetVersion 1.3.0
+;@Ahk2Exe-SetDescription GTA_AFK_v1.3.1
+;@Ahk2Exe-SetVersion 1.3.1
