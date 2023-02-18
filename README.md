@@ -34,6 +34,7 @@ This script will repeatedly send keystrokes with at a certain interval.
 - Key1 & Key2 cannot be set as special keys like <kbd>Ctrl</kbd>, <kbd>Shift</kbd> etc.
 - You can press the radio button to refresh the `Target Window` list
 - For GTAV, probably there is some mechanism has been deployed to avoid external automated keystrokes by scipt, the inactive mode is not using `ControlSend`      function, but using `Send` instead, which cause the forementioned interruption
+- the executable from `Release` is compiled by Ahk2Exe
 
 
 
