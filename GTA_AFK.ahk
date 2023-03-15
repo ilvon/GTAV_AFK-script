@@ -1,5 +1,4 @@
-Pause::Pause -1
-pause_cnt := -1
+Pause::gui_pause()
 
 k1_d := "{w down}"
 k1_u := "{w up}"
@@ -77,25 +76,24 @@ change_radio(*){
     ;update_ddl(0, app_name_list)
 }
 
-chk_pause(pac){
-    if (pac = -1){
+chk_pause(*){
+    if (A_IsPaused){
         btn_pause.Text := "Resume"
         sb.SetText("Script paused.")
     }
-    else if (pac = 1){
+    else{
         btn_pause.Text := "Pause"
         sb.SetText("Script running.")
     }
     return
 }
 gui_pause(*){
-    global hrs, mins, secs, pause_cnt
+    global hrs, mins, secs
     Pause -1
-    pause_cnt *= -1
     hrs := 0
     mins := 0
     secs := -1
-    chk_pause(pause_cnt)
+    chk_pause()
     return
 }
 gui_exit(*){
@@ -174,7 +172,7 @@ get_list(*){
     }
     i := 1
     while i <= list.length{
-        if (list[i] = "explorer.exe" OR list[i] = "hh.exe" OR list[i] = "svchost.exe" OR list[i] = "GTA_AFK_v1.3.1.exe"){
+        if (list[i] = "explorer.exe" OR list[i] = "hh.exe" OR list[i] = "svchost.exe" OR list[i] = "GTA_AFK_v1.3.2.exe"){
             list.RemoveAt(i)
             i -= 1
         }
@@ -303,5 +301,5 @@ loop
 #Esc::gui_exit()
 #`::afkgui.Show("w250 h330")
 
-;@Ahk2Exe-SetDescription GTA_AFK_v1.3.1
-;@Ahk2Exe-SetVersion 1.3.1
+;@Ahk2Exe-SetDescription GTA_AFK_v1.3.2
+;@Ahk2Exe-SetVersion 1.3.2
